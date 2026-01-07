@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PDF Viewer with Login</title>
+<style>
+body{
+  margin:0;
+  font-family: Georgia, serif;
+  background: linear-gradient(#fceabb,#f8b500);
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* LOGIN BOX */
+#loginBox{
+  position:fixed;
+  inset:0;
+  background:#000c;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+}
+#loginBox input{
+  padding:12px;
+  font-size:18px;
+  border-radius:8px;
+  border:none;
+  margin:6px 0;
+}
+#loginBox button{
+  margin-top:10px;
+  padding:10px 25px;
+  font-size:18px;
+  background:#ff4081;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+}
+#error{
+  color:red;
+  display:none;
+  margin-top:10px;
+}
+
+/* COUNTDOWN */
+#countdown{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000c;
+  color:white;
+  font-size:80px;
+  justify-content:center;
+  align-items:center;
+  z-index:9;
+}
+
+/* PDF SECTION */
+#pdfContainer{
+  display:none;
+  width:100%;
+  height:100vh;
+}
+#pdfContainer iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginBox">
+  <h2 style="color:white">Login</h2>
+  <input id="userId" placeholder="User ID">
+  <input id="userPass" type="password" placeholder="Password">
+  <button onclick="checkLogin()">Login</button>
+  <div id="error">Invalid User ID or Password</div>
+</div>
+
+<!-- COUNTDOWN -->
+<div id="countdown"></div>
+
+<!-- PDF EMBED -->
+<div id="pdfContainer">
+  <iframe src="yourfile.pdf"></iframe>
+</div>
+
+<script>
+const validUsers = ["Jawa7899", "Jawa7799", "Jawa6699"];
+const correctPassword = "6699";
+
+function checkLogin(){
+  const id = document.getElementById("userId").value.trim();
+  const pass = document.getElementById("userPass").value.trim();
+  const error = document.getElementById("error");
+
+  if(validUsers.includes(id) && pass === correctPassword){
+    document.getElementById("loginBox").style.display="none";
+    startCountdown();
+  } else {
+    error.style.display="block";
+  }
+}
+
+function startCountdown(){
+  let c = 3;
+  const cd = document.getElementById("countdown");
+  cd.style.display="flex";
+  cd.innerText = c;
+
+  const timer = setInterval(()=>{
+    c--;
+    if(c>0){
+      cd.innerText = c;
+    } else {
+      clearInterval(timer);
+      cd.style.display="none";
+      document.getElementById("pdfContainer").style.display="block";
+    }
+  },1000);
+}
+</script>
+
+</body>
+</html>
